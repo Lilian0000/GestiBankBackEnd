@@ -23,9 +23,9 @@ public class ClientDao {
 		comptes3.add(new Compte(1003L, "Compte courant", new Date(), 0L));
 		
 		clients = new ArrayList<Client>();
-		clients.add(new Client(10L, "John", "Doe", "[email protected]", "121-232-3435", comptes1));
-		clients.add(new Client(20L, "Russ", "Smith", "[email protected]", "343-232-3435", comptes2));
-		clients.add(new Client(30L, "Kate", "Williams", "[email protected]", "876-232-3435", comptes3));
+		clients.add(new Client(10L, "John", "Doe", "[email protected]", "121-232-3435", new Date(), "Ici", comptes1));
+		clients.add(new Client(20L, "Russ", "Smith", "[email protected]", "343-232-3435", new Date(), "Là", comptes2));
+		clients.add(new Client(30L, "Kate", "Williams", "[email protected]", "876-232-3435", new Date(), "Là bas",comptes3));
 	}
 
 	public List<Client> list() {
