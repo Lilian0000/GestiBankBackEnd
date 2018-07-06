@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wha.dao.AdminDao;
+import com.wha.dao.AdminDaoImpl;
 import com.wha.model.Admin;
 
 @RestController
 public class AdminRestController {
-	private AdminDao adminDAO;
+	private AdminDaoImpl adminDAO;
 
 	public AdminRestController() {
-		this.adminDAO = new AdminDao();
+		this.adminDAO = new AdminDaoImpl();
 	}
 
 	@GetMapping("/admins")

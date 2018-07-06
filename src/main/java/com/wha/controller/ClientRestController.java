@@ -2,6 +2,7 @@ package com.wha.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,52 +13,63 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wha.dao.ClientDao;
 import com.wha.model.Client;
+import com.wha.model.Compte;
+import com.wha.service.ServiceClient;
 
 @RestController
 public class ClientRestController {
-	private ClientDao clientDAO;
+
+	@Autowired
+	private ServiceClient serviceClient;
 
 	public ClientRestController() {
-		this.clientDAO = new ClientDao();
 	}
 
 	@GetMapping("/clients")
 	public List<Client> getClients() {
-		return clientDAO.list();
+		return serviceClient.findAllClients();
 	}
 
 	@GetMapping("/clients/{id}")
-	public ResponseEntity<Client> getClient(@PathVariable("id") Long id) {
+	public ResponseEntity<Client> getClient(@PathVariable("id") int id) {
 
-		Client client = clientDAO.get(id);
+		Client client = serviceClient.findById(id);
 
 		if (null == client) {
 			return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/clients/{id}/comptes")
+	public ResponseEntity<List<Compte>> getComptes(@PathVariable("id") int id) {
+
+		Client client = serviceClient.findById(id);
+
+		if (null == client) {
+			return new ResponseEntity<List<Compte>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Compte>>(client.getComptes(), HttpStatus.OK);
+	}
+
 	@PostMapping(value = "/clients")
-	public ResponseEntity<Client> createCustomer(@RequestBody Client client){
-		
-		clientDAO.create(client);
+	public ResponseEntity<Client> createCustomer(@RequestBody Client client) {
+
+		serviceClient.save(client);
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	}
-	
-	@DeleteMapping("/clients/{id}")
-	public ResponseEntity<Long> deleteClient(@PathVariable Long id) {
 
-		if (null == clientDAO.delete(id)) {
-			return new ResponseEntity<Long>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Long>(id, HttpStatus.OK);
+	@DeleteMapping("/clients/{id}")
+	public ResponseEntity<Integer> deleteClient(@PathVariable int id) {
+
+		serviceClient.deleteClientById(id);
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/clients/{id}")
-	public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
-		client = clientDAO.update(id, client);
+	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client client) {
+		client = serviceClient.updateClient(client);
 
 		if (null == client) {
 			return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
