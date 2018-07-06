@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wha.dao.ConseillerDao;
+import com.wha.dao.ConseillerDaoBouchon;
 import com.wha.model.Conseiller;
 
 @RestController
 public class ConseillerRestController {
-	private ConseillerDao conseillerDao;
+	private ConseillerDaoBouchon conseillerDao;
 
 	public ConseillerRestController() {
-		this.conseillerDao = new ConseillerDao();
+		this.conseillerDao = new ConseillerDaoBouchon();
 	}
 
 	@GetMapping("/conseillers")

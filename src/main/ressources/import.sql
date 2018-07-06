@@ -1,0 +1,1 @@
+INSERT INTO `gestibankbd`.`user` (`USER_TYPE`, `id`, `address`, `dateOfBirth`, `email`, `firstName`, `lastName`, `mobile`) VALUES ('Client', '1', '19 rue Danton', '2018-07-10 00:00:00', 'vadcard.felix@gmail.com', 'Félix', 'Vadard', '613938746');
