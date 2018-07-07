@@ -18,7 +18,7 @@ public abstract class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	protected Long id;
+	protected int id;
 	protected String firstName;
 	protected String lastName;
 	protected String email;
@@ -26,7 +26,7 @@ public abstract class User {
 	protected String address;
 	protected Date dateOfBirth;
 
-	public User(Long id, String firstName, String lastName, String email, String mobile, String address, Date dateOfBirth) {
+	public User(int id, String firstName, String lastName, String email, String mobile, String address, Date dateOfBirth) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -40,11 +40,11 @@ public abstract class User {
 	public User() {
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

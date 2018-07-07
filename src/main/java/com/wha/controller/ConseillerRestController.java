@@ -29,7 +29,7 @@ public class ConseillerRestController {
 	}
 
 	@GetMapping("/conseillers/{id}")
-	public ResponseEntity<Conseiller> getConseiller(@PathVariable("id") Long id) {
+	public ResponseEntity<Conseiller> getConseiller(@PathVariable("id") int id) {
 
 		Conseiller conseiller = conseillerDao.get(id);
 

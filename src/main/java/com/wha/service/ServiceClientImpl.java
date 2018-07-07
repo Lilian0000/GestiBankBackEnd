@@ -16,19 +16,16 @@ public class ServiceClientImpl implements ServiceClient {
 	
 	@Override
 	public Client findClientByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return clientDao.findByName(name);
 	}
 
 	@Override
 	public void saveClient(Client client) {
-		// TODO Auto-generated method stub
 		clientDao.save(client);
 	}
 
 	@Override
 	public List<Client> findAllClients() {
-		// TODO Auto-generated method stub
 		return clientDao.findAllClients();
 	}
 
@@ -46,5 +43,15 @@ public class ServiceClientImpl implements ServiceClient {
 		clientDao.deleteClientById(id);
 		
 	}
+	@Override
+	public void updateClientById(int id, Client client) {
+		clientDao.updateClientById(id, client);
+	}
+
+	@Override
+	public void deleteAllClients() {
+		clientDao.deleteAllClients();
+	}
+	
 
 }

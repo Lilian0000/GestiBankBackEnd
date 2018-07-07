@@ -29,7 +29,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/admins/{id}")
-	public ResponseEntity<Admin> getAdmin(@PathVariable("id") Long id) {
+	public ResponseEntity<Admin> getAdmin(@PathVariable("id") int id) {
 
 		Admin admin = adminDAO.get(id);
 
@@ -47,16 +47,16 @@ public class AdminRestController {
 	}
 	
 	@DeleteMapping("/admins/{id}")
-	public ResponseEntity<Long> deleteAdmin(@PathVariable Long id) {
+	public ResponseEntity<Integer> deleteAdmin(@PathVariable int id) {
 
-		if (null == adminDAO.delete(id)) {
-			return new ResponseEntity<Long>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Long>(id, HttpStatus.OK);
+//		if (null == adminDAO.delete(id)) {
+//			return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+//		}
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
 	
 	@PutMapping("/admins/{id}")
-	public ResponseEntity<Admin> updateAdmin(@PathVariable Long id, @RequestBody Admin admin) {
+	public ResponseEntity<Admin> updateAdmin(@PathVariable int id, @RequestBody Admin admin) {
 		admin = adminDAO.update(id, admin);
 
 		if (null == admin) {

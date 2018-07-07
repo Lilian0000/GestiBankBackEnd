@@ -31,7 +31,7 @@ public class ClientRestController {
 		return serviceClient.findAllClients();
 	}
 
-	@GetMapping("/client/{id}")
+	@GetMapping("/clients/{id}")
 	public ResponseEntity<Client> getClient(@PathVariable("id") int id) {
 
 		Client client = serviceClient.findById(id);
@@ -39,7 +39,8 @@ public class ClientRestController {
 		if (null == client) {
 			return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Client>(client, HttpStatus.OK);
+		else {
+		return new ResponseEntity<Client>(client, HttpStatus.OK);}
 	}
 	
 	@PostMapping(value = "/clients")
@@ -58,10 +59,18 @@ public class ClientRestController {
 		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/clients/deleteallclients")
+	@Transactional
+	public ResponseEntity<String> deleteAllClient() {
+		serviceClient.deleteAllClients();
+		return new ResponseEntity<String>("all Clients deleted", HttpStatus.OK);
+	}
+	
 	@PutMapping("/clients/{id}")
-	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client client) {
-		serviceClient.updateClient(client);
-		return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+	@Transactional
+	public ResponseEntity<Client> updateClient(@PathVariable("id") int id, @RequestBody Client client) {
+		serviceClient.updateClientById(id, client);
+		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	
 	}
 }

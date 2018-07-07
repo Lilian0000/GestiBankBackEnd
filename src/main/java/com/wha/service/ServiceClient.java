@@ -13,10 +13,14 @@ public interface ServiceClient {
 	List<Client> findAllClients();
 
 	Client findById(int id);
+	
+	void deleteAllClients();
 
 	void updateClient(Client client);
 
 	void deleteClientById(int id);
 
+	void updateClientById(int id, Client client);
+	
 
 }

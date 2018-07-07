@@ -12,12 +12,16 @@ public class ClientDaoImpl extends AbstractDao<Integer, Client> implements Clien
 
 	@Override
 	public Client findById(int id) {
+//		Query q = getEntityManager().createQuery("select c from Client c where id = ?1").setParameter(1, id);
+//		return (Client) q.getSingleResult();
 		return getByKey(id);
 	}
 
 	@Override
 	public Client findByName(String name) {
-		return null;
+		String rqt = "select c from Client c where c.name = ?1";
+		Query q = getEntityManager().createQuery(rqt).setParameter(1, name);
+		return (Client) q.getSingleResult();
 	}
 
 	@Override
@@ -38,16 +42,24 @@ public class ClientDaoImpl extends AbstractDao<Integer, Client> implements Clien
 
 	@Override
 	public void deleteAllClients() {
+		int count = getEntityManager().createQuery("delete from Client c").executeUpdate();	
+	}
+
+	@Override
+	public Client updateClientById(int id, Client client) {
+		int count = getEntityManager().createQuery("update Client c set c = ?2 where c.id = ?1").setParameter(1, id).setParameter(2, client).executeUpdate();
+		return client;
+		
+//		update(user);
+//		return user;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Client updateClient(Client user) {
-		update(user);
-		return user;
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }
