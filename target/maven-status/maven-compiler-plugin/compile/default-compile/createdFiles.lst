@@ -1,9 +1,11 @@
+com\wha\service\ServiceClientImpl.class
 com\wha\config\AppConfig.class
 com\wha\controller\ClientRestController.class
 com\wha\controller\AdminRestController.class
 com\wha\model\Admin.class
 com\wha\controller\ConseillerRestController.class
 com\wha\dao\ClientDaoImpl.class
+com\wha\service\ServiceClient.class
 com\wha\config\AppInitializer.class
 com\wha\model\Compte.class
 com\wha\model\User.class

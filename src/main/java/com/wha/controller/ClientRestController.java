@@ -44,7 +44,7 @@ public class ClientRestController {
 	@PostMapping(value = "/clients")
 	public ResponseEntity<Client> createCustomer(@RequestBody Client client){
 		
-		serviceClient.save(client);
+		serviceClient.saveClient(client);
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	}
 	
@@ -57,7 +57,7 @@ public class ClientRestController {
 	
 	@PutMapping("/clients/{id}")
 	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client client) {
-		client = serviceClient.updateClient(client);
+		serviceClient.updateClient(client);
 		return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
 	
 	}
