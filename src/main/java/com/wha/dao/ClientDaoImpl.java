@@ -39,12 +39,12 @@ public class ClientDaoImpl extends AbstractDao<Integer, Client> implements Clien
 	@Override
 	public void deleteAllClients() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public Client updateClient(Client user) {
-		this.update(user);
+		update(user);
 		return user;
 		// TODO Auto-generated method stub
 		

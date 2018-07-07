@@ -23,7 +23,7 @@ public class ServiceClientImpl implements ServiceClient {
 	@Override
 	public void saveClient(Client client) {
 		// TODO Auto-generated method stub
-		
+		clientDao.save(client);
 	}
 
 	@Override
