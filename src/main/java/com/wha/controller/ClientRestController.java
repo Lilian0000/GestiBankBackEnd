@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wha.model.Client;
+import com.wha.model.Compte;
 import com.wha.service.ServiceClient;
 
 @RestController
 public class ClientRestController {
-	
+
 	@Autowired
 	private ServiceClient serviceClient;
 
@@ -27,8 +28,14 @@ public class ClientRestController {
 	}
 
 	@GetMapping("/clients")
-	public List<Client> getClients() {
-		return serviceClient.findAllClients();
+	public ResponseEntity<List<Client>> getClients() {
+		List<Client> clients= serviceClient.findAllClients();
+		if(clients == null) {
+			return new ResponseEntity<List<Client>>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Client>>(clients, HttpStatus.OK);
+		}
+
 	}
 
 	@GetMapping("/clients/{id}")
@@ -38,39 +45,59 @@ public class ClientRestController {
 
 		if (null == client) {
 			return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Client>(client, HttpStatus.OK);
 		}
-		else {
-		return new ResponseEntity<Client>(client, HttpStatus.OK);}
 	}
-	
+
 	@PostMapping(value = "/clients")
 	@Transactional
-	public ResponseEntity<Client> createCustomer(@RequestBody Client client){
-		
+	public ResponseEntity<Client> createCustomer(@RequestBody Client client) {
 		serviceClient.saveClient(client);
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/clients/{id}")
 	@Transactional
 	public ResponseEntity<Integer> deleteClient(@PathVariable("id") int id) {
-
-		serviceClient.deleteClientById(id);
-		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		if (serviceClient.findById(id) == null) {
+			return new ResponseEntity<Integer>(id, HttpStatus.NOT_FOUND);
+		} else {
+			serviceClient.deleteClientById(id);
+			return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		}	
 	}
-	
+
 	@DeleteMapping("/clients/deleteallclients")
 	@Transactional
 	public ResponseEntity<String> deleteAllClient() {
 		serviceClient.deleteAllClients();
 		return new ResponseEntity<String>("all Clients deleted", HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/clients/{id}")
 	@Transactional
-	public ResponseEntity<Client> updateClient(@PathVariable("id") int id, @RequestBody Client client) {
-		serviceClient.updateClientById(id, client);
+	public ResponseEntity<Boolean> updateClient(@PathVariable("id") int id, @RequestBody Client client) {
+		if (serviceClient.findById(id) == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+		} else {
+			serviceClient.updateClientById(id, client);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping("/clients/{id}/comptes")
+	public List<Compte> getComptes(@PathVariable("id") int id) {
+		Client client = serviceClient.findById(id);
+		return client.getComptes();
+	}
+
+	@PutMapping(value = "/clients/{id}/comptes")
+	@Transactional
+	public ResponseEntity<Client> createCompte(@PathVariable("id") int id, @RequestBody Compte compte) {
+		Client client = serviceClient.findById(id);
+		client.getComptes().add(compte);
+		serviceClient.updateClient(client);
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
-	
 	}
 }
