@@ -7,16 +7,15 @@ import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING)
-//@DiscriminatorValue("CLIENT")
+@Table(name="Client")
 public class Client extends User {
 	
 	private int numeroclient;
@@ -68,7 +67,5 @@ public class Client extends User {
 		this.idConseiller = idConseiller;
 	}
 
-	
-	
-	
 }
+

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wha.model.Client;
 import com.wha.model.Conseiller;
+
 import com.wha.service.ServiceClient;
 import com.wha.service.ServiceConseiller;
 
@@ -24,10 +25,9 @@ public class ConseillerRestController {
 	
 	@Autowired
 	private ServiceConseiller serviceConseiller;
-	
 	@Autowired
 	private ServiceClient serviceClient;
-	
+
 	public ConseillerRestController() {
 	}
 
@@ -87,19 +87,27 @@ public class ConseillerRestController {
 		}
 	}
 	
-	@PutMapping(value = "/conseillers/{id}/clients/{idCl}")
+	@PutMapping(value = "/conseillers/clients/{id}")
 	@Transactional
-	public ResponseEntity<Client> attribuerClient(@PathVariable("id") int id, @PathVariable("idCl") int idCl) {
+	public ResponseEntity<Client> attribuerClient(@PathVariable("id") int id, @RequestBody Conseiller conseiller) {
 		
-		Conseiller conseiller = serviceConseiller.findById(id);
-		Client client = serviceClient.findById(idCl);
+		int idCons = conseiller.getId();
+
+		Conseiller trueConseiller = serviceConseiller.findById(idCons);
+		Client client = serviceClient.findById(id);
 		
-		conseiller.getClients().add(client);
-		serviceConseiller.updateConseiller(conseiller);
+		trueConseiller.getClients().add(client);
+		serviceConseiller.updateConseiller(trueConseiller);
 		
-		client.setIdConseiller(conseiller.getId());
+		client.setIdConseiller(idCons);
 		serviceClient.updateClient(client);
 		
-		return new ResponseEntity<Client>(client, HttpStatus.OK);
+		if (trueConseiller == null || client == null) {
+			return new ResponseEntity<Client>(client, HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Client>(client, HttpStatus.OK);
+		}
 	}
+  
 }

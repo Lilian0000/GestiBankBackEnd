@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wha.model.Client;
 import com.wha.model.Compte;
+import com.wha.model.DemandeOuvertureCompte;
 import com.wha.service.ServiceClient;
 
 @RestController
@@ -49,7 +50,24 @@ public class ClientRestController {
 			return new ResponseEntity<Client>(client, HttpStatus.OK);
 		}
 	}
+	
+	@GetMapping("/clients/nbnotattributed")
+	public ResponseEntity<Long> getNbOfNotAttributedClient() {
+		Long nb = serviceClient.findNbOfNotAttClients();
+		return new ResponseEntity<Long>(nb, HttpStatus.OK);
+	}
+	
+	@GetMapping("clients/notAttributed")
+	public ResponseEntity<List<Client>> getClientsNotAttributed() {
+		List<Client> clients= serviceClient.findClientsNotAttributed();
+		if(clients == null) {
+			return new ResponseEntity<List<Client>>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Client>>(clients, HttpStatus.OK);
+		}
 
+	}
+	
 	@PostMapping(value = "/clients")
 	@Transactional
 	public ResponseEntity<Client> createCustomer(@RequestBody Client client) {
@@ -100,4 +118,11 @@ public class ClientRestController {
 		serviceClient.updateClient(client);
 		return new ResponseEntity<Client>(client, HttpStatus.OK);
 	}
+	
+	@PostMapping(value= "/clients/DOCpts")
+	@Transactional
+	public ResponseEntity<Boolean> demandeOuvertureCompte(@RequestBody DemandeOuvertureCompte dOC) {
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
 }
